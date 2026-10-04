@@ -1,19 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
 
 import { BookAppProvider } from "@/components/book-app-provider";
+import { DesktopNav } from "@/components/desktop-nav";
 import { MobileNav } from "@/components/mobile-nav";
 import { PwaRegister } from "@/components/pwa-register";
 
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
+  style: ["normal", "italic"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta",
   subsets: ["latin"],
 });
 
@@ -36,16 +38,21 @@ export const viewport: Viewport = {
   themeColor: "#3a2d26",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${newsreader.variable} ${plusJakartaSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col bg-[#faf6ef] text-[#1c1815] font-sans selection:bg-[#c59b27] selection:text-white">
         <BookAppProvider>
           <PwaRegister />
-          {children}
+          <DesktopNav />
+          <main className="flex-1">{children}</main>
           <MobileNav />
         </BookAppProvider>
       </body>

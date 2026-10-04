@@ -35,17 +35,31 @@ export function formatClockDuration(seconds: number) {
     .join(":");
 }
 
+export function formatDate(dateString: string) {
+  const d = new Date(dateString);
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+}
+
+export function formatMonthYear(d: Date) {
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
+  ];
+  return `${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
 export function formatTimeRange(startedAt: string, endedAt: string) {
   const start = new Date(startedAt);
   const end = new Date(endedAt);
 
-  return `${start.toLocaleDateString()} • ${start.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  })} - ${end.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  })}`;
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  const startHours = pad(start.getHours());
+  const startMins = pad(start.getMinutes());
+  const endHours = pad(end.getHours());
+  const endMins = pad(end.getMinutes());
+
+  return `${formatDate(startedAt)} • ${startHours}:${startMins} - ${endHours}:${endMins}`;
 }
 
 export function makeId(prefix: string) {
